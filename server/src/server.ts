@@ -5,6 +5,7 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../generated/prisma/client";
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import passport from 'passport';
+import './config/passport';
 
 const app = express();
 
@@ -37,10 +38,28 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('hello');
+import { userRouter } from './routes/userRouter.js';
+app.use('/', userRouter);
+
+app.use((err: Error, req: Request, res: Response, next: Function) => {
+    const status = (err as any).status || 500;
+
+    console.error(`[Error] ${err.message}`);
+
+    res.status(status).json({ 
+        success: false,
+        error: err.message || 'Internal Server Error',
+        stack: process.env.NODE_ENV === 'production' ? undefined : err.stack 
+    });
 });
 
-app.listen(3000, () => {
-    console.log(`server is running at port 3000`);
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, (err) => {
+    if (err) {
+      throw err;
+    }
+    console.log(`Server is running at port ${PORT}`);
 });
+
+export { prisma };
