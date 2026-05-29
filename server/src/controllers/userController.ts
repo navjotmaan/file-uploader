@@ -42,4 +42,11 @@ function ensureAuthenticated(req: Request, res: Response, next: NextFunction) {
     res.status(401).json({ error: "Unauthorized. Please log in" });
 }
 
-export { register, login, logout, ensureAuthenticated };
+function checkUserAuth(req: Request, res: Response) {
+    return res.json({ 
+      authenticated: true, 
+      user: { email: (req.user as any).email, id: (req.user as any).id } 
+    });
+}
+
+export { register, login, logout, ensureAuthenticated, checkUserAuth };
