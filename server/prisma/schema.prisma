@@ -16,6 +16,8 @@ model User {
   id       String   @id @default(uuid())
   email    String   @unique
   password String
+  folders Folder[]
+  files File[]
 }
 
 model Session {
@@ -23,4 +25,31 @@ model Session {
   sid       String   @unique
   data      String   
   expiresAt DateTime
+}
+
+model Folder {
+  id        String @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId    String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  files File[]
+}
+
+model File {
+  id        String @id @default(uuid())
+  name      String
+  url       String
+  size      Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId    String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  folderId  String
+  folder Folder @relation(fields: [folderId], references: [id], onDelete: Cascade)
 }
