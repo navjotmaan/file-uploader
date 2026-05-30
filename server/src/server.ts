@@ -45,27 +45,29 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 import { userRouter } from './routes/userRouter.js';
+import { folderRouter } from './routes/folderRouter';
 app.use('/', userRouter);
+app.use('/new', folderRouter);
 
 app.use((err: Error, req: Request, res: Response, next: Function) => {
-    const status = (err as any).status || 500;
+  const status = (err as any).status || 500;
 
-    console.error(`[Error] ${err.message}`);
+  console.error(`[Error] ${err.message}`);
 
-    res.status(status).json({ 
-        success: false,
-        error: err.message || 'Internal Server Error',
-        stack: process.env.NODE_ENV === 'production' ? undefined : err.stack 
-    });
+  res.status(status).json({ 
+    success: false,
+    error: err.message || 'Internal Server Error',
+    stack: process.env.NODE_ENV === 'production' ? undefined : err.stack 
+  });
 });
 
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, (err) => {
-    if (err) {
-      throw err;
-    }
-    console.log(`Server is running at port ${PORT}`);
+  if (err) {
+    throw err;
+  }
+  console.log(`Server is running at port ${PORT}`);
 });
 
 export { prisma };
