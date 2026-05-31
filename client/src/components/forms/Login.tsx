@@ -16,9 +16,8 @@ export const Login = () => {
         try {
             const { email, password } = formData;
 
-            const response = await api.post('/login', {email, password});
-            console.log('User logged in', response.data);
-            navigate('/');
+            await api.post('/login', {email, password});
+            navigate('/dashboard');
         } catch (err) {
             console.log('log in failed', err);
         }
