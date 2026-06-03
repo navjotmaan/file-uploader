@@ -11,12 +11,20 @@ async function createFolder(req: Request, res: Response, next: NextFunction) {
                 userId: userId,
             },
         });
-        
-        console.log('Folder created successfully:', newFolder);
-        return newFolder;
+
+        return res.status(201).json(newFolder);
     } catch (err) {
         next(err);
     }
 }
 
-export { createFolder };
+async function getAllFolders(req: Request, res: Response, next: NextFunction) {
+    try {
+        const allFolder = await prisma.folder.findMany();
+        res.json(allFolder);
+    } catch (err) {
+        next(err);
+    }
+}
+
+export { createFolder, getAllFolders };
