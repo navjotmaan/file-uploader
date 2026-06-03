@@ -10,15 +10,16 @@ export function UserProvider({ children }: { children: ReactNode}) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        api.get('/api/me')
-        .then(response => {
-            setUserId(response.data.user.id);
-            setLoading(false);
-        })
-        .catch(() => {
-            setUserId(null);
-            setLoading(false);
-        });
+        (async () => {
+            try {
+                const response = await api.get('/api/me')
+                setUserId(response.data.user.id);
+            } catch {
+                setUserId(null);
+            } finally {
+                setLoading(false);
+            }
+        })();
     }, []);
 
     if (loading) return <div>Loading...</div>;
