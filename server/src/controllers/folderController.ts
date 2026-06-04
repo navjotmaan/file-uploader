@@ -20,7 +20,12 @@ async function createFolder(req: Request, res: Response, next: NextFunction) {
 
 async function getAllFolders(req: Request, res: Response, next: NextFunction) {
     try {
-        const allFolder = await prisma.folder.findMany();
+        const userId = (req.user as any)?.id;
+        const allFolder = await prisma.folder.findMany({
+            where: {
+                userId: userId
+            }
+        });
         res.json(allFolder);
     } catch (err) {
         next(err);
