@@ -9,6 +9,7 @@ import { Signup } from './components/forms/Signup.tsx'
 import { Error } from './components/helpers/Error.tsx'
 import { UserProvider } from './components/helpers/ContextApi.tsx'
 import { ProtectedRoute } from './components/helpers/ProtectedRoute.tsx'
+import { Files } from './components/Files.tsx'
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,7 @@ const router = createBrowserRouter([
     children: [
       { path: '/', element: <App /> },
       { path: '/dashboard', element: <ProtectedRoute><Dashboard /></ProtectedRoute>},
+      { path: '/folder/:id', element: <ProtectedRoute><Files /></ProtectedRoute>},
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Signup /> },
       
