@@ -7,6 +7,9 @@ import cloud from '../../public/cloud.png';
 export interface Folder {
     id: string;
     name: string;
+    _count: {
+        files: number;
+    };
 }
 
 export const Dashboard = () => {
@@ -19,6 +22,7 @@ export const Dashboard = () => {
             try {
                 const response = await api.get('/folder/all');
                 setFolders(response.data);
+                console.log(response.data)
             } catch (err) {
                 console.log(err);
             }
@@ -56,6 +60,7 @@ export const Dashboard = () => {
                     <Link to={`/folder/${f.id}`} className="font-semibold" >
                         {f.name}
                     </Link>
+                    <p>{f._count.files} files</p>
                     </div>
                 ))}
             </main>
