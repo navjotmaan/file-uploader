@@ -3,7 +3,8 @@ import { prisma } from '../server'
 
 async function createFolder(req: Request, res: Response, next: NextFunction) {
     try {
-        const { folderName, userId } = req.body;
+        const { folderName } = req.body;
+        const userId = (req.user as any)?.id;
 
         const newFolder = await prisma.folder.create({
             data: {
@@ -24,6 +25,11 @@ async function getAllFolders(req: Request, res: Response, next: NextFunction) {
         const allFolder = await prisma.folder.findMany({
             where: {
                 userId: userId
+            },
+            include: {
+                _count: {
+                    select: { files: true },
+                }
             }
         });
         res.json(allFolder);
