@@ -46,8 +46,11 @@ app.use(passport.session());
 
 import { userRouter } from './routes/userRouter.js';
 import { folderRouter } from './routes/folderRouter';
+import { fileRouter } from './routes/fileRouter';
+
 app.use('/', userRouter);
 app.use('/folder', folderRouter);
+app.use('/file', fileRouter);
 
 app.use((err: Error, req: Request, res: Response, next: Function) => {
   const status = (err as any).status || 500;
