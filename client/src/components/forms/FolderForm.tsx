@@ -1,11 +1,9 @@
-import { useState, useContext } from "react"
+import { useState } from "react"
 import api from "../api";
-import { UserContext } from "../helpers/ContextApi";
 import type { Folder } from "../Dashboard";
 
 export const FolderForm = ({ setFolders }: { setFolders: React.Dispatch<React.SetStateAction<Folder[]>> }) => {
     const [folderName, setFolderName] = useState('');
-    const userId = useContext(UserContext);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFolderName(e.target.value);
@@ -15,7 +13,7 @@ export const FolderForm = ({ setFolders }: { setFolders: React.Dispatch<React.Se
         e.preventDefault();
         
         try {
-            const response = await api.post('/folder/new', {folderName, userId});
+            const response = await api.post('/folder/new', {folderName});
             const newFolder = response.data;
             setFolders((prevFolders: Folder[]) => [...prevFolders, newFolder]);
             setFolderName('');
@@ -25,10 +23,10 @@ export const FolderForm = ({ setFolders }: { setFolders: React.Dispatch<React.Se
     };
 
     return (
-        <form onSubmit={handleSubmit} className="my-20">
-            <label htmlFor="folderName">Folder Name: </label>
-            <input id="folderName" name="folderName" value={folderName} onChange={handleChange} required className="border"/>
-            <button type="submit" className="border">Create</button>
+        <form onSubmit={handleSubmit} className="my-20 flex flex-col gap-2 w-50 items-center">
+            <label htmlFor="folderName">Folder Name</label>
+            <input id="folderName" name="folderName" value={folderName} onChange={handleChange} required className="border rounded"/>
+            <button type="submit" className="w-20 border rounded">Create</button>
         </form>
     )
 }
