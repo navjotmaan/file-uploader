@@ -19,7 +19,7 @@ export const FileForm = ({ folderId, setFiles }: { folderId: string, setFiles: R
 
         try {
             const formData = new FormData();
-            formData.append('fileName', file);
+            formData.append('file', file);
             formData.append('folderId', folderId);
             const response = await api.post(`/file/${folderId}/new`, formData);
             setFiles((prevFiles: FileModel[]) => [...prevFiles, response.data]);
