@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FolderForm } from "./forms/FolderForm";
 import api from "./api";
 import { Link, useNavigate } from "react-router-dom";
-import cloud from '../../public/cloud.png';
+import cloud from '../assets/cloud.png';
 
 export interface Folder {
     id: string;
@@ -22,7 +22,6 @@ export const Dashboard = () => {
             try {
                 const response = await api.get('/folder/all');
                 setFolders(response.data);
-                console.log(response.data)
             } catch (err) {
                 console.log(err);
             }
