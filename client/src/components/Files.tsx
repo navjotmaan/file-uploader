@@ -35,7 +35,10 @@ export const Files = () => {
         <div className="p-20">
             <FileForm folderId={id} setFiles={setFiles} />
             {files.map((f: File) => (
-                <div key={f.id} className="border rounded p-2 w-50">{f.name}</div>
+                <a href={f.url} key={f.id} className="border rounded p-2 w-50" target="_blank"
+                 rel="noopener noreferrer">
+                    {f.name}
+                </a>
             ))}
         </div>
     )
