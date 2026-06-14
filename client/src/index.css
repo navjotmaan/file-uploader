@@ -1,1 +1,16 @@
 @import "tailwindcss";
+
+@theme {
+  --font-sans: "Nunito", "Lato", "ui-sans-serif", "system-ui";
+  --font-handwriting: "Playwrite NZ Basic", "cursive";
+  --font-display: "MonteCarlo", "Quintessential", "Oswald", "serif";
+  --font-pro: "Momo Trust Display", "SN Pro", "sans-serif";
+  --font-home: "Audiowide", "cursive";
+  --font-body: "Hammersmith One", "Lato", "sans-serif";
+}
+
+@layer base {
+  body {
+    @apply font-sans;
+  }
+}
