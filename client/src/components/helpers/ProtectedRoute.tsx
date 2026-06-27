@@ -7,10 +7,10 @@ interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-    const userId = useContext(UserContext);
+    const { userId } = useContext(UserContext);
     
     if (!userId) {
-    return <Navigate to="/" replace />
+        return <Navigate to="/" replace />
     }
 
     return children;

@@ -6,7 +6,7 @@ import { Signup } from "./forms/Signup";
 import { Features } from './helpers/Features';
 
 const App = () => {
-  const userId = useContext(UserContext);
+  const { userId } = useContext(UserContext);
       
   if (userId) {
     return <Navigate to="/dashboard" replace />
