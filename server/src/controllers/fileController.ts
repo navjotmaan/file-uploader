@@ -42,6 +42,7 @@ async function uploadFileController(req: Request, res: Response) {
         userId: userId,
         folderId: folderId,
         url: publicUrl,
+        size: file.size,
       },
     });
 

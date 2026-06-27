@@ -11,6 +11,11 @@ async function createFolder(req: Request, res: Response, next: NextFunction) {
                 name: folderName,
                 userId: userId,
             },
+            include: {
+                _count: {
+                    select: { files: true },
+                },
+            },
         });
 
         return res.status(201).json(newFolder);

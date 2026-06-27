@@ -4,12 +4,13 @@ import { prisma } from '../server';
 
 async function register(req: Request, res: Response, next: NextFunction) {
     try {
-        const { email, password } = req.body;
+        const { name, email, password } = req.body;
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const newUser = await prisma.user.create({
             data: {
+                name,
                 email,
                 password: hashedPassword,
             },
@@ -17,7 +18,7 @@ async function register(req: Request, res: Response, next: NextFunction) {
 
         req.login(newUser, (err) => {
             if (err) return next(err);
-            return res.status(201).json({ message: 'User registered and logged in', user: { email: newUser.email } });
+            return res.status(201).json({ message: 'User registered and logged in', user: { email: newUser.email} });
         });
     } catch (err) {
         next(err);
@@ -45,7 +46,7 @@ function ensureAuthenticated(req: Request, res: Response, next: NextFunction) {
 function checkUserAuth(req: Request, res: Response) {
     return res.json({ 
       authenticated: true, 
-      user: { email: (req.user as any).email, id: (req.user as any).id } 
+      user: { name: (req.user as any).name, email: (req.user as any).email, id: (req.user as any).id } 
     });
 }
 
