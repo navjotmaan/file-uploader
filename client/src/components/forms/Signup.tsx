@@ -1,8 +1,11 @@
-import { useState } from "react";
-import api from "../api";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../helpers/ContextApi";
 
 export const Signup = () => {
     const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+    const navigate = useNavigate();
+    const { signup } = useContext(UserContext);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -13,8 +16,8 @@ export const Signup = () => {
         const { name, email, password } = formData;
 
         try {
-            const response = await api.post('/register', {name, email, password});
-            console.log('User created', response.data);
+            await signup(name, email, password);
+            navigate('/dashboard');
         } catch (err) {
             console.log('Registeration failed');
         }

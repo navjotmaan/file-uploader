@@ -16,7 +16,7 @@ export const Dashboard = () => {
     const [folders, setFolders] = useState<Folder[]>([]);
     const [toggleForm, setToggleForm] = useState(false);
 
-    const { userId, userName } = useContext(UserContext);
+    const { userId, userName, logout } = useContext(UserContext);
 
     if (!userId) {
         return <Navigate to="/" replace />
@@ -33,23 +33,13 @@ export const Dashboard = () => {
         })();
     }, []);
 
-    function handleLogout() {
-        try {
-            api.post('/logout');
-            console.log("logout successfully");
-            return <Navigate to="/" replace />
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
     return (
         <div className="p-5">
             <span className="flex justify-between items-center">
                 <span className="flex items-center gap-2">
                     <h1 className="text-4xl font-bold">Hello, {userName}!</h1>
                 </span>
-                <button onClick={handleLogout} className="border mt-5 cursor-pointer rounded-lg font-semibold px-3 py-1">Log Out</button>
+                <button onClick={logout} className="border mt-5 cursor-pointer rounded-lg font-semibold px-3 py-1">Log Out</button>
             </span>
 
             <button onClick={() => setToggleForm(!toggleForm)} className="bg-[#09a0d3] text-white mt-5 cursor-pointer rounded-lg font-bold px-3 py-1">+ New</button>

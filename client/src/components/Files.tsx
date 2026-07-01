@@ -54,7 +54,7 @@ export const Files = () => {
             ) : (
             files.map((f: File) => (
                 <div key={f.id} className="mx-auto bg-[#e9ecef] rounded py-2 px-5 my-5 flex justify-between items-center w-[60%]">
-                    <a href={f.url} key={f.id} target="_blank"
+                    <a key={f.id} href={f.url} target="_blank"
                     rel="noopener noreferrer">
                     {f.name}
                     </a>

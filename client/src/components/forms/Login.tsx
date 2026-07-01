@@ -1,10 +1,11 @@
-import { useState } from "react";
-import api from "../api";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../helpers/ContextApi";
 
 export const Login = () => {
     const [formData, setFormData] = useState({email: '', password: ''});
     const navigate = useNavigate();
+    const { login } = useContext(UserContext);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -12,11 +13,10 @@ export const Login = () => {
 
     const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const { email, password } = formData;
 
         try {
-            const { email, password } = formData;
-
-            await api.post('/login', {email, password});
+            await login(email, password);
             navigate('/dashboard');
         } catch (err) {
             console.log('log in failed', err);
