@@ -18,7 +18,14 @@ async function register(req: Request, res: Response, next: NextFunction) {
 
         req.login(newUser, (err) => {
             if (err) return next(err);
-            return res.status(201).json({ message: 'User registered and logged in', user: { email: newUser.email} });
+            return res.status(201).json({
+                message: 'User registered and logged in',
+                user: {
+                    id: newUser.id,
+                    name: newUser.name,
+                    email: newUser.email,
+                },
+            });
         });
     } catch (err) {
         next(err);
@@ -26,7 +33,14 @@ async function register(req: Request, res: Response, next: NextFunction) {
 }
 
 async function login(req: Request, res: Response) {
-    res.json({ message: 'Logged in successfully', user: { email: (req.user as any).email } });
+    res.json({
+        message: 'Logged in successfully',
+        user: {
+            id: (req.user as any).id,
+            name: (req.user as any).name,
+            email: (req.user as any).email,
+        },
+    });
 }
 
 async function logout(req: Request, res: Response, next: NextFunction) {
