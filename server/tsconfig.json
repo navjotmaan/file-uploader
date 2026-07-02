@@ -45,5 +45,7 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-  }
+  },
+  "include": ["src/**/*"],       // Force TS to only scan files inside the src folder
+  "exclude": ["node_modules", "dist", "prisma.config.ts"]
 }
