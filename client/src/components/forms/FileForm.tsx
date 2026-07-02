@@ -1,9 +1,10 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import api from "../api";
 import type { File as FileModel } from '../Files';
 
 export const FileForm = ({ folderId, setFiles }: { folderId: string, setFiles: React.Dispatch<React.SetStateAction<FileModel[]>>}) => {
     const [file, setFile] = useState<File | null>(null);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFile(e.target.files?.[0] || null);
@@ -24,6 +25,9 @@ export const FileForm = ({ folderId, setFiles }: { folderId: string, setFiles: R
             const response = await api.post(`/file/${folderId}/new`, formData);
             setFiles((prevFiles: FileModel[]) => [...prevFiles, response.data]);
             setFile(null);
+            if (fileInputRef.current) {
+                fileInputRef.current.value = "";
+            }
         } catch (err) {
             console.log(err);
         }
@@ -31,7 +35,7 @@ export const FileForm = ({ folderId, setFiles }: { folderId: string, setFiles: R
 
     return (
         <form onSubmit={handleSubmit} method="POST" encType="multipart/form-data" className="mb-10 flex gap-3 items-center justify-center">
-            <input id="file" name="fileName" type="file" onChange={handleChange} required className="border rounded px-2 py-1"/>
+            <input ref={fileInputRef} id="file" name="fileName" type="file" onChange={handleChange} required className="border rounded px-2 py-1"/>
             <button type="submit" className="w-20 bg-[#09a0d3] text-white cursor-pointer rounded-lg font-bold px-3 py-1">Add</button>
         </form>
     )
