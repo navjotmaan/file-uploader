@@ -34,32 +34,38 @@ export const Dashboard = () => {
     }, []);
 
     return (
-        <div className="p-5">
-            <span className="flex justify-between items-center">
-                <span className="flex items-center gap-2">
-                    <h1 className="text-4xl font-bold">Hello, {userName}!</h1>
+        <div className="p-5 bg-[#e9ecef] min-h-screen">
+            <span className="flex justify-between items-start p-5">
+                <span className="">
+                    <h1 className="text-4xl font-bold">"Hello, {userName}!"</h1>
+                    <button onClick={() => setToggleForm(!toggleForm)} className="bg-[#09a0d3] text-white mt-8 cursor-pointer rounded-lg font-bold px-3 py-1">+ New</button>
                 </span>
-                <button onClick={logout} className="border mt-5 cursor-pointer rounded-lg font-semibold px-3 py-1">Log Out</button>
+                <button onClick={logout} className="border cursor-pointer rounded-lg font-semibold px-3 py-1 bg-white shadow-md">Log Out</button>
             </span>
-
-            <button onClick={() => setToggleForm(!toggleForm)} className="bg-[#09a0d3] text-white mt-5 cursor-pointer rounded-lg font-bold px-3 py-1">+ New</button>
 
             {toggleForm ? <FolderForm setFolders={setFolders} setToggleForm={setToggleForm} /> : ''}
 
             <main className="flex gap-10 flex-wrap p-10">
-                {folders.map((f: Folder) => (
-                    <div key={f.id} className="relative border p-2 mt-10 w-[200px] min-h-[100px] text-center rounded-lg">
-
-                        <div className="flex justify-between">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-folder-icon lucide-folder text-[#09a0d3]"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
-                        </div>
-
-                        <Link to={`/folder/${f.id}`} className="font-semibold text-lg" >
-                            {f.name}
-                        </Link>
-                        <p className="text-gray-500">{f._count?.files ? `${f._count.files} ` : '0 '}files</p>
+                {folders.length === 0 ? (
+                    <div className="text-gray-500">
+                        <p>No folders found.</p>
+                        <p>Click 'New' button to create a folder.</p>
+                        <p>Click on a folder to view its contents and to add files.</p>
                     </div>
-                ))}
+                ) : (folders.map((f: Folder) => (
+                    <div key={f.id} className="flex items-center justify-center gap-5 relative p-2 mt-8 w-[220px] min-h-[100px] bg-white text-center rounded-lg shadow-md">
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-folder-icon lucide-folder text-[#09a0d3]"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+                    
+
+                        <div>
+                            <Link to={`/folder/${f.id}`} className="font-semibold text-lg" >
+                                {f.name}
+                            </Link>
+                            <p className="text-gray-500">{f._count?.files ? `${f._count.files} ` : '0 '}files</p>
+                        </div>
+                    </div>
+                )))}
             </main>
         </div>
     )
