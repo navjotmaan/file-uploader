@@ -46,10 +46,7 @@ async function uploadFileController(req: Request, res: Response) {
       },
     });
 
-    return res.status(201).json({
-      message: 'File uploaded and saved successfully!',
-      data: newRecord,
-    });
+    return res.status(201).json(newRecord);
 
   } catch (error) {
     console.error('Upload error:', error);
