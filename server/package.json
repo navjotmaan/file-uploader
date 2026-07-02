@@ -8,6 +8,8 @@
   "main": "src/server.ts",
   "scripts": {
     "dev": "npx nodemon --exec npx tsx src/server.ts",
+    "build": "tsc",
+    "start": "npx prisma migrate deploy && node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
