@@ -6,7 +6,7 @@ import api from "./api";
 export interface File {
     id: string;
     name: string;
-    url?: string;
+    url: string;
     size?: number;
     updatedAt: string;
 }
@@ -32,18 +32,28 @@ export const Files = () => {
         return <div>Invalid Folder</div>;
     }
 
-    function formatDate(dateString: string) {
+    function formatDate(dateString?: string) {
+        if (!dateString) return "—";
+
         const date = new Date(dateString);
+        if (Number.isNaN(date.getTime())) return "—";
 
         const day = String(date.getUTCDate()).padStart(2, '0');
-        const month = String(date.getUTCMonth() + 1).padStart(2, '0'); 
+        const month = String(date.getUTCMonth() + 1).padStart(2, '0');
         const year = date.getUTCFullYear();
         const hours = String(date.getUTCHours()).padStart(2, '0');
         const minutes = String(date.getUTCMinutes()).padStart(2, '0');
 
-        const formattedDate = `${day}-${month}-${year} ${hours}:${minutes}`;
-        return formattedDate;
+        return `${day}-${month}-${year} ${hours}:${minutes}`;
     }
+
+    const handleDownload = (publicUrl: string, fileName: string) => {
+        // Append the download trigger query parameter to the public URL
+        const triggerDownloadUrl = `${publicUrl}?download=${encodeURIComponent(fileName)}`;
+        
+        // Open the URL in a new tab; the browser will catch the header and download it instantly
+        window.open(triggerDownloadUrl, '_blank');
+    };
 
     return (
         <div className="p-10">
@@ -54,12 +64,12 @@ export const Files = () => {
             ) : (
             files.map((f: File) => (
                 <div key={f.id} className="mx-auto bg-[#e9ecef] rounded py-2 px-5 my-5 flex justify-between items-center w-[60%]">
-                    <a key={f.id} href={f.url} target="_blank"
-                    rel="noopener noreferrer">
-                    {f.name}
+                    <a href={f.url} target="_blank" rel="noopener noreferrer">
+                        {f.name}
                     </a>
                     <p>{formatDate(f.updatedAt)}</p>
-                    <p>{f.size && `${(f.size / 1024).toFixed(0)} KB`}</p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-download-icon lucide-download cursor-pointer" onClick={() => handleDownload(f.url, f.name)}><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>
+                    <p>{f.size ? `${(f.size / 1024).toFixed(0)} KB` : "—"}</p>
                 </div>
             ))
             )}
