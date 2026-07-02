@@ -2,7 +2,7 @@
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     // File Layout
-    "rootDir": "./src",
+    "rootDir": "./",
     "outDir": "./dist",
 
     // Environment Settings
@@ -46,6 +46,14 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
   },
-  "include": ["src/**/*"],       // Force TS to only scan files inside the src folder
-  "exclude": ["node_modules", "dist", "prisma.config.ts"]
+  "include": [
+    "src/**/*", 
+    "lib/**/*", 
+    "generated/**/*"
+  ],
+  "exclude": [
+    "node_modules", 
+    "dist", 
+    "prisma.config.ts"
+  ]
 }
