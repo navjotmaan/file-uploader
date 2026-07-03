@@ -1,4 +1,4 @@
-import { uploadFileController, getAllFiles } from "../controllers/fileController";
+import { uploadFileController, getAllFiles } from "../controllers/fileController.js";
 import { Router } from "express";
 
 import multer from 'multer';

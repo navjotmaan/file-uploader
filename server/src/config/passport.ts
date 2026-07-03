@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import type { User as PrismaUser } from "../../generated/prisma/client";
-import { prisma } from "../server";
+import type { User as PrismaUser } from "../../generated/prisma/client.js";
+import { prisma } from "../server.js";
 import bcrypt from 'bcryptjs';
 
 passport.use(

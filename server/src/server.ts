@@ -2,10 +2,10 @@ import express, { type Request, type Response } from 'express';
 import expressSession from 'express-session';
 import "dotenv/config";
 import { PrismaPg } from "@prisma/adapter-pg";  
-import { PrismaClient } from "../generated/prisma/client";
+import { PrismaClient } from "../generated/prisma/client.js";
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import passport from 'passport';
-import './config/passport';
+import './config/passport.js';
 import cors from 'cors';
 
 const app = express();
@@ -47,8 +47,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 import { userRouter } from './routes/userRouter.js';
-import { folderRouter } from './routes/folderRouter';
-import { fileRouter } from './routes/fileRouter';
+import { folderRouter } from './routes/folderRouter.js';
+import { fileRouter } from './routes/fileRouter.js';
 
 app.use('/', userRouter);
 app.use('/folder', folderRouter);

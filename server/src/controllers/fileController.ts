@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
-import { prisma } from '../server';
+import { prisma } from '../server.js';
 import { supabase } from '../../lib/supabase.js'; 
 
 async function uploadFileController(req: Request, res: Response) {

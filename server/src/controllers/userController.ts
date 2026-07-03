@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcryptjs';
-import { prisma } from '../server';
+import { prisma } from '../server.js';
 
 async function register(req: Request, res: Response, next: NextFunction) {
     try {

@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express'
-import { prisma } from '../server'
+import { prisma } from '../server.js';
 
 async function createFolder(req: Request, res: Response, next: NextFunction) {
     try {
