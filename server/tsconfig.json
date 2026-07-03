@@ -7,7 +7,7 @@
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "ESNext",
+    "module": "nodenext",
     "target": "ES2023",
     "types": ["node", "express"],
     // For nodejs:
@@ -24,7 +24,7 @@
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
 
-    "moduleResolution": "bundler",
+    "moduleResolution": "nodenext",
 
     "esModuleInterop": true,
     "ignoreDeprecations": "6.0",
@@ -47,13 +47,13 @@
     "skipLibCheck": true,
   },
   "include": [
-    "src/**/*", 
-    "lib/**/*", 
-    "generated/**/*"
+    "src/**/*",
+    "lib/**/*"
   ],
   "exclude": [
-    "node_modules", 
-    "dist", 
+    "node_modules",
+    "dist",
+    "generated",
     "prisma.config.ts"
   ]
 }
