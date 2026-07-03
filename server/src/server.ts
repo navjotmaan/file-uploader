@@ -24,6 +24,8 @@ const connectionString = `${process.env.DATABASE_URL}`;
 const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({ adapter });
 
+app.set('trust proxy', 1);
+
 app.use(
   expressSession({
     secret: process.env.SESSION_SECRET || 'a santa at nasa', 
@@ -33,6 +35,7 @@ app.use(
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in ms
       httpOnly: true, 
       secure: process.env.NODE_ENV === 'production', 
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     },
     store: new PrismaSessionStore(
       prisma,
