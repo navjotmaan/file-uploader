@@ -23,10 +23,10 @@ export const Login = () => {
         }
     }
     return (
-        <div>
+        <div className="mx-5 md:m-auto flex flex-col items-center">
             <p className="text-center mt-20 mb-5 text-xl font-semibold">Log in to your account</p>
 
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-[30%] border border-[#dee2e6] px-5 py-10 bg-[#f8f9fa] rounded-lg shadow-md m-auto">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full max-w-sm border border-[#dee2e6] px-5 py-10 bg-[#f8f9fa] rounded-lg shadow-md">
                 <div className="flex flex-col">
                     <label htmlFor="email">Email </label>
                     <input id="email" type="email"

@@ -34,10 +34,10 @@ export const Dashboard = () => {
     }, []);
 
     return (
-        <div className="p-5 bg-[#e9ecef] min-h-screen">
+        <div className="md:p-5 bg-[#e9ecef] min-h-screen">
             <span className="flex justify-between items-start p-5">
                 <span className="">
-                    <h1 className="text-4xl font-bold">"Hello, {userName}!"</h1>
+                    <h1 className="md:text-4xl text-2xl font-bold">"Hello, {userName}!"</h1>
                     <button onClick={() => setToggleForm(!toggleForm)} className="bg-[#09a0d3] text-white mt-8 cursor-pointer rounded-lg font-bold px-3 py-1">+ New</button>
                 </span>
                 <button onClick={logout} className="border cursor-pointer rounded-lg font-semibold px-3 py-1 bg-white shadow-md">Log Out</button>
@@ -45,7 +45,7 @@ export const Dashboard = () => {
 
             {toggleForm ? <FolderForm setFolders={setFolders} setToggleForm={setToggleForm} /> : ''}
 
-            <main className="flex gap-10 flex-wrap p-10">
+            <main className="flex md:gap-10 flex-wrap p-10">
                 {folders.length === 0 ? (
                     <div className="text-gray-500">
                         <p>No folders found.</p>

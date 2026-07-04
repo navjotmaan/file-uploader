@@ -56,19 +56,21 @@ export const Files = () => {
     };
 
     return (
-        <div className="p-10">
+        <div className="md:px-10 py-10 px-5">
             <FileForm folderId={id} setFiles={setFiles} />
 
             {files.length === 0 ? (
                 <p className="text-center text-gray-500">No files found in this folder.</p>
             ) : (
             files.map((f: File) => (
-                <div key={f.id} className="mx-auto bg-[#e9ecef] rounded py-2 px-5 my-5 flex justify-between items-center w-[60%]">
+                <div key={f.id} className="mx-auto bg-[#e9ecef] rounded py-2 px-5 my-5 md:flex justify-between items-center md:w-[60%]">
                     <a href={f.url} target="_blank" rel="noopener noreferrer">
                         {f.name}
                     </a>
-                    <p>{formatDate(f.updatedAt)}</p>
+                    <span className="flex justify-between items-center md:min-w-[35%]">
+                        <p>{formatDate(f.updatedAt)}</p>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-download-icon lucide-download cursor-pointer" onClick={() => handleDownload(f.url, f.name)}><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>
+                    </span>
                     <p>{f.size ? `${(f.size / 1024).toFixed(0)} KB` : "—"}</p>
                 </div>
             ))
