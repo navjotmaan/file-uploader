@@ -23,7 +23,8 @@ export function UserProvider({ children }: { children: ReactNode}) {
             try {
                 const response = await api.get('/api/me')
                 setUserId(response.data.user.id);
-                setUserName(response.data.user.name);
+                const firstName = response.data.user.name.includes(" ") ? response.data.user.name.split(" ")[0] : response.data.user.name;
+                setUserName(firstName);
             } catch {
                 setUserId(null);
                 setUserName(null);
@@ -37,7 +38,8 @@ export function UserProvider({ children }: { children: ReactNode}) {
         try {
             const response = await api.post('/register', { name, email, password });    
             setUserId(response.data.user.id);
-            setUserName(response.data.user.name);
+            const firstName = response.data.user.name.includes(" ") ? response.data.user.name.split(" ")[0] : response.data.user.name;
+            setUserName(firstName);
             return response.data;
         } catch (err) {
             console.log('Registration failed', err);
@@ -48,7 +50,8 @@ export function UserProvider({ children }: { children: ReactNode}) {
         try {
             const response = await api.post('/login', { email, password });
             setUserId(response.data.user.id);
-            setUserName(response.data.user.name);
+            const firstName = response.data.user.name.includes(" ") ? response.data.user.name.split(" ")[0] : response.data.user.name;
+            setUserName(firstName);
             return response.data;
         } catch (err) {
             console.log('Login failed', err);
@@ -65,7 +68,12 @@ export function UserProvider({ children }: { children: ReactNode}) {
         }
     };
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return (
+        <div className="flex flex-col gap-5 items-center justify-center mt-50">
+            <p>Please wait...</p>
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-500 border-t-transparent"></div>
+      </div>
+    )
 
     return (
         <UserContext.Provider value={{ userId, userName, setUserId, setUserName, signup, login, logout }}>
