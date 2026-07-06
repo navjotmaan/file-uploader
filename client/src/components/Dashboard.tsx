@@ -34,22 +34,36 @@ export const Dashboard = () => {
     }, []);
 
     return (
-        <div className="md:p-5 bg-[#e9ecef] min-h-screen">
-            <span className="flex justify-between items-start p-5">
-                <span className="">
+        <div className="md:p-10 bg-[#e9ecef] min-h-screen">
+            <span className="flex justify-between items-start">
+                <span>
                     <h1 className="md:text-4xl text-2xl font-bold">"Hello, {userName}!"</h1>
-                    <button onClick={() => setToggleForm(!toggleForm)} className="bg-[#09a0d3] text-white mt-8 cursor-pointer rounded-lg font-bold px-3 py-1">+ New</button>
+                    <p className="text-gray-600 text-lg p-2">It's your cloud space to manage your files!</p>
                 </span>
-                <button onClick={logout} className="border cursor-pointer rounded-lg font-semibold px-3 py-1 bg-white shadow-md">Log Out</button>
+                <button onClick={logout} className="cursor-pointer rounded-lg font-semibold px-3 py-1 bg-white shadow-md transform active:scale-95 transition-transform duration-100">Log out</button>
             </span>
+            <hr></hr>
 
-            {toggleForm ? <FolderForm setFolders={setFolders} setToggleForm={setToggleForm} /> : ''}
+            <button onClick={() => setToggleForm(!toggleForm)} className="bg-[#09a0d3] text-white mt-8 cursor-pointer rounded-lg font-bold px-3 py-1 hover:bg-[#0781ab] transform active:scale-95 transition-transform duration-100">+ New Folder</button>
 
-            <main className="flex md:gap-10 flex-wrap p-10">
+            {toggleForm && (
+                <>
+                    <div 
+                        className="fixed inset-0 z-40 bg-black/10" 
+                        onClick={() => setToggleForm(false)} 
+                    />
+                    
+                    <div className="relative z-50">
+                        <FolderForm setFolders={setFolders} setToggleForm={setToggleForm} />
+                    </div>
+                </>
+            )}
+
+            <main className="flex md:gap-10 flex-wrap py-5">
                 {folders.length === 0 ? (
                     <div className="text-gray-500">
                         <p>No folders found.</p>
-                        <p>Click 'New' button to create a folder.</p>
+                        <p>Click 'New Folder' button to create a folder.</p>
                         <p>Click on a folder to view its contents and to add files.</p>
                     </div>
                 ) : (folders.map((f: Folder) => (
@@ -59,7 +73,7 @@ export const Dashboard = () => {
                     
 
                         <div>
-                            <Link to={`/folder/${f.id}`} className="font-semibold text-lg" >
+                            <Link to={`/folder/${f.id}`} className="font-semibold text-lg hover:underline" >
                                 {f.name}
                             </Link>
                             <p className="text-gray-500">{f._count?.files ? `${f._count.files} ` : '0 '}files</p>
