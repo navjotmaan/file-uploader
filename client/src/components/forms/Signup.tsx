@@ -19,7 +19,7 @@ export const Signup = () => {
             await signup(name, email, password);
             navigate('/dashboard');
         } catch (err) {
-            console.log('Registeration failed');
+            console.log('Registration failed');
         }
     }
 
@@ -61,7 +61,7 @@ export const Signup = () => {
                 />
             </div>
 
-            <button type="submit" className="bg-[#09a0d3] text-white mt-5 cursor-pointer w-[40%] rounded-lg font-bold py-1">Register</button>
+            <button type="submit" className="bg-[#09a0d3] text-white mt-5 cursor-pointer w-[40%] rounded-lg font-bold py-1 hover:bg-[#0781ab] transform active:scale-95 transition-transform duration-100">Register</button>
         </form>
     )
 }

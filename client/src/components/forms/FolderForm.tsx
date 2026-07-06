@@ -24,10 +24,10 @@ export const FolderForm = ({ setFolders, setToggleForm }: { setFolders: React.Di
     };
 
     return (
-        <form onSubmit={handleSubmit} className="bg-[#f8f9fa] flex flex-col gap-2 w-70 border rounded-lg p-5 absolute top-35 z-20">
+        <form onSubmit={handleSubmit} className="bg-[#f8f9fa] flex flex-col gap-2 w-70 rounded-lg p-5 absolute shadow-md left-5">
             <label htmlFor="folderName">Folder Name</label>
             <input id="folderName" name="folderName" value={folderName} onChange={handleChange} required className="border rounded px-2"/>
-            <button type="submit" className="bg-[#09a0d3] text-white w-20 mt-5 rounded-lg cursor-pointer font-semibold p-1">Create</button>
+            <button type="submit" className="bg-[#09a0d3] text-white w-20 mt-5 rounded-lg cursor-pointer font-semibold p-1 hover:bg-[#0781ab] transform active:scale-95 transition-transform duration-100">Create</button>
         </form>
     )
 };

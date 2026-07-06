@@ -21,8 +21,8 @@ const App = () => {
       </span>
 
       <span className="flex items-center md:gap-5 gap-2">
-        <Link to="/login" className="px-3 font-bold">Login</Link>
-        <Link to="/register" className="border rounded-lg px-3 py-1 bg-[#09a0d3] text-white font-bold">Register</Link>
+        <Link to="/login" className="px-3 font-bold hover:text-[#0781ab] transform active:scale-95 transition-transform duration-100">Login</Link>
+        <Link to="/register" className="border rounded-lg px-3 py-1 bg-[#09a0d3] text-white font-bold hover:bg-[#0781ab] transform active:scale-95 transition-transform duration-100">Register</Link>
       </span>
       </header>
       <hr className="border-gray-300"></hr>

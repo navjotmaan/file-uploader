@@ -35,8 +35,8 @@ export const FileForm = ({ folderId, setFiles }: { folderId: string, setFiles: R
 
     return (
         <form onSubmit={handleSubmit} method="POST" encType="multipart/form-data" className="mb-10 flex gap-3 items-center justify-center">
-            <input ref={fileInputRef} id="file" name="fileName" type="file" onChange={handleChange} required className="border w-full md:w-auto rounded px-2 py-1"/>
-            <button type="submit" className="w-20 bg-[#09a0d3] text-white cursor-pointer rounded-lg font-bold px-3 py-1">Add</button>
+            <input ref={fileInputRef} id="file" name="fileName" type="file" onChange={handleChange} required className="border w-full md:w-auto rounded px-2 py-1 bg-[#f8f9fa]"/>
+            <button type="submit" className="w-20 bg-[#09a0d3] text-white cursor-pointer rounded-lg font-bold px-3 py-1 hover:bg-[#0781ab] transform active:scale-95 transition-transform duration-100">Add</button>
         </form>
     )
 }
