@@ -71,4 +71,49 @@ async function getAllFiles(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-export { uploadFileController, getAllFiles };
+async function deleteFoldersAndFiles(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { folderId } = req.body;
+
+    // 1. Fetch all files inside this folder
+    const files = await prisma.file.findMany({
+      where: { folderId: folderId },
+      select: { url: true } 
+    });
+
+    if (files.length > 0) {
+      const bucketPathSegment = 'files_upload/';
+      
+      // Map over ALL files to extract their storage paths
+      const fileNamesInBucket: string[] = files
+        .map(file => file.url.split(bucketPathSegment)[1])
+        .filter(Boolean) as string[]; // Filters out any undefined/empty values just in case
+
+      if (fileNamesInBucket.length > 0) {
+        // 2. Delete ALL files from Supabase Storage at once
+        const { data, error } = await supabase
+          .storage
+          .from('files_upload')
+          .remove(fileNamesInBucket); // Passes the full array of paths
+
+        if (error) {
+          // If storage fails, we probably want to stop before deleting the DB records
+          throw new Error(`Storage deletion failed: ${error.message}`);
+        } 
+      }
+    }
+    
+    // 3. Delete the folder from the database (Cascades to File rows)
+    await prisma.folder.delete({
+      where: { id: folderId }
+    });
+
+    return res.status(200).json({ success: true, message: "Folder and all associated assets deleted successfully." });
+
+  } catch (error) {
+    console.error("Deletion failed:", error);
+    return res.status(500).json({ success: false, message: "Failed to delete folder and associated assets." });
+  }
+}
+
+export { uploadFileController, getAllFiles, deleteFoldersAndFiles };
