@@ -56,14 +56,14 @@ export const Files = () => {
     };
 
     return (
-        <div className="md:px-10 py-10 px-5">
+        <div className="md:px-10 bg-[#e9ecef] min-h-screen py-10 px-5">
             <FileForm folderId={id} setFiles={setFiles} />
 
             {files.length === 0 ? (
                 <p className="text-center text-gray-500">No files found in this folder.</p>
             ) : (
             files.map((f: File) => (
-                <div key={f.id} className="mx-auto bg-[#e9ecef] rounded py-2 px-5 my-5 md:flex justify-between items-center md:w-[60%]">
+                <div key={f.id} className="mx-auto bg-white rounded py-2 px-5 my-5 md:flex justify-between items-center md:w-[60%]">
                     <a href={f.url} target="_blank" rel="noopener noreferrer">
                         {f.name}
                     </a>
