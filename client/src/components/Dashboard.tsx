@@ -18,6 +18,7 @@ export const Dashboard = () => {
     const [activeFolderId, setActiveFolderId] = useState<string | null>(null);
     const [selectedName, setSelectedName] = useState<string | "">("");
     const [id, setId] = useState<string | "">("");
+    const [loading, setLoading] = useState(false);
 
     const toggleDropdown = (folderId: string) => {
         setActiveFolderId(prevId => prevId === folderId ? null : folderId);
@@ -32,21 +33,27 @@ export const Dashboard = () => {
     useEffect(() => {
         (async () => {
             try {
+                setLoading(true);
                 const response = await api.get('/folder/all');
                 setFolders(response.data);
             } catch (err) {
                 console.log(err);
+            } finally {
+                setLoading(false);
             }
         })();
     }, []);
 
     const handleDeleteFolder = async (folderId: string) => {
         try {
+            setLoading(true);
             await api.delete('/folder/delete', { data: { folderId } });
             setFolders((prevFolders) => prevFolders.filter((folder) => folder.id !== folderId));
             setActiveFolderId(null);
         } catch (err) {
             console.log(err);
+        } finally { 
+            setLoading(false);
         }
     };
 
@@ -62,6 +69,19 @@ export const Dashboard = () => {
         setToggleForm(true);
     };
 
+    const handleLogout = async () => {
+        if (!logout) return;
+        
+        try {
+            setLoading(true);
+            await logout();
+        } catch (err) {
+            console.log(err);
+        } finally {
+            setLoading(false);
+        }   
+    }
+
     return (
         <div className="md:p-10 p-5 bg-[#e9ecef] min-h-screen">
             <span className="flex justify-between items-start">
@@ -69,7 +89,14 @@ export const Dashboard = () => {
                     <h1 className="md:text-4xl text-2xl font-bold">"Hello, {userName}!"</h1>
                     <p className="text-gray-600 md:text-lg p-2">It's your cloud space to manage your files!</p>
                 </span>
-                <button onClick={logout} className="cursor-pointer rounded-lg font-semibold px-3 py-1 bg-white shadow-md transform active:scale-95 transition-transform duration-100 md:text-lg text-sm">Log out</button>
+                <button onClick={handleLogout} className="cursor-pointer rounded-lg font-semibold px-3 py-1 bg-white shadow-md hover:bg-gray-100 transform active:scale-95 transition-transform duration-100 md:text-lg text-sm">
+                    {loading ? 
+                        <div className="flex flex-col gap-5 items-center justify-center">
+                            <div className="h-5 w-5 animate-spin rounded-full border-2 border-solid border-black border-t-transparent"></div>
+                        </div> 
+                        : "Log out"
+                    }
+                </button>
             </span>
             <hr></hr>
 
@@ -94,7 +121,11 @@ export const Dashboard = () => {
 
 
             <main className="flex md:gap-10 flex-wrap py-5">
-                {folders.length === 0 ? (
+                {loading ? (
+                    <div className="flex flex-col gap-5 items-center justify-center m-auto mt-20">
+                        <div className="h-8 w-8 animate-spin rounded-full border-3 border-solid border-[#09a0d3] border-t-transparent"></div>
+                    </div> 
+                ) : folders.length === 0 ? (
                     <div className="text-gray-500 mt-8 flex flex-col gap-2">
                         <p>No folder found.</p>
                         <p>Click <b>'New Folder'</b> button to create a folder.</p>

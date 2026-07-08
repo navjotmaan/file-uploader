@@ -6,6 +6,7 @@ export const Login = () => {
     const [formData, setFormData] = useState({email: '', password: ''});
     const navigate = useNavigate();
     const { login } = useContext(UserContext);
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -16,10 +17,13 @@ export const Login = () => {
         const { email, password } = formData;
 
         try {
+            setLoading(true);
             await login(email, password);
             navigate('/dashboard');
         } catch (err) {
             console.log('log in failed', err);
+        } finally {
+            setLoading(false);
         }
     }
     return (
@@ -51,7 +55,14 @@ export const Login = () => {
                     />
                 </div>
 
-                <button type="submit" className="bg-[#09a0d3] text-white mt-5 cursor-pointer w-[40%] rounded-lg font-bold py-1 hover:bg-[#0781ab] transform active:scale-95 transition-transform duration-100">Log in</button>
+                <button type="submit" className="bg-[#09a0d3] text-white mt-5 cursor-pointer w-[40%] rounded-lg font-bold py-1 hover:bg-[#0781ab] transform active:scale-95 transition-transform duration-100">
+                    {loading ? 
+                        <div className="flex flex-col gap-5 items-center justify-center">
+                            <div className="h-5 w-5 animate-spin rounded-full border-2 border-solid border-white border-t-transparent"></div>
+                        </div> 
+                        : "Log in"
+                    }
+                </button>
             </form>
 
             <p className="text-center mt-5">Don't have an account? <Link to="/register" className="text-[#09a0d3] font-bold">Register</Link></p>

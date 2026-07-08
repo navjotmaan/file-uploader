@@ -14,16 +14,20 @@ export interface File {
 export const Files = () => {
     const [files, setFiles] = useState<File[]>([]);
     const { id } = useParams<{ id: string }>();
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (!id) return;
 
         (async () => {
             try {
+                setLoading(true);
                 const res = await api.get(`/file/${id}/all`);
                 setFiles(res.data);
             } catch (err) {
                 console.log(err);
+            } finally {
+                setLoading(false);
             }
         })();
     }, [id]);
@@ -57,10 +61,13 @@ export const Files = () => {
 
     const deleteFile = async (fileId: string) => {
         try {
+            setLoading(true);
             await api.delete('/file/delete', { data: { fileId } });
             setFiles((prevFiles) => prevFiles.filter((file) => file.id !== fileId));
         } catch (err) {
             console.log(err);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -68,7 +75,11 @@ export const Files = () => {
         <div className="md:px-10 bg-[#e9ecef] min-h-screen py-10 px-5">
             <FileForm folderId={id} setFiles={setFiles} />
 
-            {files.length === 0 ? (
+            {loading ? (
+                <div className="flex flex-col gap-5 items-center justify-center mt-20">
+                    <div className="h-8 w-8 animate-spin rounded-full border-3 border-solid border-[#09a0d3] border-t-transparent"></div>
+                </div> 
+            ) : files.length === 0 ? (
                 <p className="text-center text-gray-500">No files found in this folder.</p>
             ) : (
             files.map((f: File) => (

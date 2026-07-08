@@ -6,6 +6,7 @@ export const Signup = () => {
     const [formData, setFormData] = useState({ name: '', email: '', password: '' });
     const navigate = useNavigate();
     const { signup } = useContext(UserContext);
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -16,10 +17,13 @@ export const Signup = () => {
         const { name, email, password } = formData;
 
         try {
+            setLoading(true);
             await signup(name, email, password);
             navigate('/dashboard');
         } catch (err) {
             console.log('Registration failed');
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -61,7 +65,14 @@ export const Signup = () => {
                 />
             </div>
 
-            <button type="submit" className="bg-[#09a0d3] text-white mt-5 cursor-pointer w-[40%] rounded-lg font-bold py-1 hover:bg-[#0781ab] transform active:scale-95 transition-transform duration-100">Register</button>
+            <button type="submit" className="bg-[#09a0d3] text-white mt-5 cursor-pointer w-[40%] rounded-lg font-bold py-1 hover:bg-[#0781ab] transform active:scale-95 transition-transform duration-100">
+                {loading ? 
+                    <div className="flex flex-col gap-5 items-center justify-center">
+                        <div className="h-5 w-5 animate-spin rounded-full border-2 border-solid border-white border-t-transparent"></div>
+                    </div> 
+                    : "Register"
+                }
+            </button>
         </form>
     )
 }
