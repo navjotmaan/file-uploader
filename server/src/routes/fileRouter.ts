@@ -1,4 +1,4 @@
-import { uploadFileController, getAllFiles } from "../controllers/fileController.js";
+import { uploadFileController, getAllFiles, deleteFile } from "../controllers/fileController.js";
 import { Router } from "express";
 
 import multer from 'multer';
@@ -15,5 +15,6 @@ const upload = multer({
 
 fileRouter.post('/:id/new', upload.single('file'), uploadFileController);
 fileRouter.get('/:id/all', getAllFiles);
+fileRouter.delete('/delete', deleteFile);
 
 export { fileRouter };
