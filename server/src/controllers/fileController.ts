@@ -71,6 +71,50 @@ async function getAllFiles(req: Request, res: Response, next: NextFunction) {
   }
 }
 
+async function deleteFile(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { fileId } = req.body;  
+
+    if (!fileId || typeof fileId !== 'string') {
+      return res.status(400).json({ success: false, message: "Invalid or missing fileId." });
+    }
+
+    const bucketPathSegment = 'files_upload/';
+
+    const file = await prisma.file.findUnique({
+      where: { id: fileId } 
+    });
+    
+    if (!file) {
+      return res.status(404).json({ success: false, message: "File not found in database." });
+    }
+
+    const fileNameInBucket = file.url.split(bucketPathSegment)[1];
+
+    if (!fileNameInBucket) {
+      return res.status(400).json({ success: false, message: "Could not parse filename from storage URL." });
+    }
+
+    const { error } = await supabase
+      .storage
+      .from('files_upload')
+      .remove([fileNameInBucket]); 
+
+    if (error) {
+      throw new Error(`Storage deletion failed: ${error.message}`);
+    } 
+
+    await prisma.file.delete({
+      where: { id: fileId }
+    });
+
+    return res.status(200).json({ success: true, message: "File deleted successfully." });
+
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function deleteFoldersAndFiles(req: Request, res: Response, next: NextFunction) {
   try {
     const { folderId } = req.body;
@@ -111,9 +155,8 @@ async function deleteFoldersAndFiles(req: Request, res: Response, next: NextFunc
     return res.status(200).json({ success: true, message: "Folder and all associated assets deleted successfully." });
 
   } catch (error) {
-    console.error("Deletion failed:", error);
-    return res.status(500).json({ success: false, message: "Failed to delete folder and associated assets." });
+    next(error);
   }
 }
 
-export { uploadFileController, getAllFiles, deleteFoldersAndFiles };
+export { uploadFileController, getAllFiles, deleteFile, deleteFoldersAndFiles };
