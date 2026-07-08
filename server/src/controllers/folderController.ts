@@ -43,4 +43,27 @@ async function getAllFolders(req: Request, res: Response, next: NextFunction) {
     }
 }
 
-export { createFolder, getAllFolders };
+async function editFolderName(req: Request, res: Response, next: NextFunction) {
+    try {
+        const { folderName } = req.body;
+        const folderId = (req.params.id as string);
+        const editedFolder = await prisma.folder.update({
+            where: {
+                id: folderId
+            },
+            data: {
+                name: folderName
+            },
+            include: {
+                _count: {
+                    select: { files: true },
+                },
+            },
+        });
+        res.json(editedFolder);
+    } catch (err) {
+        next(err);
+    }
+}
+
+export { createFolder, getAllFolders, editFolderName };
